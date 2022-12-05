@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 
+from pages.base_page import BasePage
 from .pages.login_page import LoginPage
 from .pages.main_page import MainPage
 
@@ -29,3 +30,9 @@ def test_visible_form(browser):
     page = LoginPage(browser, link)
     page.open()
     page.should_be_login_page()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
+    page = BasePage(browser, link)
+    page.open()
+    page.
