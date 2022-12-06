@@ -1,18 +1,19 @@
 import math
 import time
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException  # в начале файла
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .locators import BasePageLocators
+from pages.locators import BasePageLocators
+from pages.locators import BasketPageLocators
 
 
 class BasePage:
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
-        # self.browser.implicitly_wait(timeout)
+        self.browser.implicitly_wait(timeout)
 
     def open(self):
         self.browser.get(self.url)
@@ -28,7 +29,7 @@ class BasePage:
         login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         login_link.click()
         #alert = self.browser.switch_to.alert
-        #alert.accept() работает без алерта
+        #alert.accept() #работает без алерта
 
     def should_be_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
@@ -65,3 +66,11 @@ class BasePage:
             return False
 
         return True
+
+    def perehod_v_basket(self):
+        basket = self.browser.find_element(*BasketPageLocators.BUTTON_VIEW_BASKET)
+        basket.click()
+
+    def should_be_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"

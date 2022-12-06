@@ -1,7 +1,7 @@
 import time
 
-from .base_page import BasePage
-from .locators import ProductPageLocators
+from pages.base_page import BasePage
+from pages.locators import ProductPageLocators
 
 
 class ProductPage(BasePage):
@@ -25,7 +25,7 @@ class ProductPage(BasePage):
         print(messages.text)
         print(name_book.text)
 
-        assert messages.text == name_book.text, 'Название книги не совпадает с тем что добавлена в корзину'
+        assert messages.text == name_book.text, 'Название книги не совпадает с том что добавлена в корзину'
 
     def should_be_price_book(self):
         price_book = self.browser.find_element(*ProductPageLocators.PRICE_BOOK)
@@ -35,7 +35,7 @@ class ProductPage(BasePage):
 
         assert price_book.text == price_book_in_basket.text, 'Цена на странице и в корзине отличаются'
 
-    def should_not_be_success_message(self):# показывает что сообщения об успешном добавлении товара в корзину нет пока товар не добавлен в корзину
+    def should_not_be_success_message(self):# показывает есть ли сообщение об успешном добавлении товара в корзину, пока товар не добавлен в корзину
         assert self.is_not_element_present(*ProductPageLocators.MESSAGES_VIN), \
             "Присутствует сообщение об успешном добавлении товара в корзину, но товар не добавлен в корзину"
 
