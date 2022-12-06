@@ -1,28 +1,23 @@
-import time
-
-import faker
 import pytest
 
-from pages.basket_page import BasketPage
-from pages.login_page import LoginPage
-from pages.product_page import ProductPage
+from .pages.product_page import ProductPage
 
 # link = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=newYear'
 # link = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/coders-at-work_207/?promo=newYear2019'
 
-# @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0
-# ", "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer2",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer3",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer4",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer5",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer6",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
-# "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"]) ДЛЯ ПАРАМЕТРИЗАЦИИ ЧЕРЕЗ
-# ФИКСТУРУ
-# @pytest.mark.parametrize('link', ["okay_link", pytest.param("bugged_link", marks=pytest.mark.xfail),
-# "okay_link"])
+# @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
+#                                 "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
+#                                "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer2",
+#                               "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer3",
+#                              "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer4",
+#                             "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer5",
+#                            "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer6",
+#                           "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
+#                         "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
+#                          "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"])
+# @pytest.mark.parametrize('link', ["okay_link",
+#                                 pytest.param("bugged_link", marks=pytest.mark.xfail),
+#                                "okay_link"])
 
 
 link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
@@ -72,53 +67,3 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, link4)
     page.open()
     page.go_to_login_page()
-
-
-@pytest.mark.basket
-def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    link5 = 'https://selenium1py.pythonanywhere.com/ru/catalogue/the-shellcoders-handbook_209/'
-    page = BasketPage(browser, link5)
-    page.open()
-    page.perehod_v_basket()
-    page.show_null_product_in_basket()
-    page.should_null_basket_text()
-
-
-@pytest.mark.basket
-def test_guest_cant_see_product_in_basket_opened_from_product_page_NEGATIVE(browser):
-    link5 = 'https://selenium1py.pythonanywhere.com/ru/catalogue/the-shellcoders-handbook_209/'
-    page = BasketPage(browser, link5)
-    page.open()
-    page.perehod_v_basket()
-    page.show_null_product_in_basket()
-    page.should_null_basket_text()
-    page.negative_proverka_basket_page()
-
-
-@pytest.mark.login_user
-class TestUserAddToBasketFromProductPage:
-    def test_user_cant_see_success_message(self, browser):
-        page = ProductPage(browser, link_2)
-        page.open()
-        page.should_not_be_success_message()
-
-    def test_message_disappeared_after_adding_product_to_basket(self, browser):
-        page = ProductPage(browser, link_2)
-        page.open()
-        page.button_add_to_basket()
-        page.success_message_should_disappear()
-
-    @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser):
-        link3 = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
-
-        page = LoginPage(browser, link3)
-
-        page.open()
-        f = faker.Faker()
-        email = f.email()
-        #password = str(time.time())
-        password = 'AA12345678'
-        #confirm_password = 'AA12345678'
-        page.register_new_user(email=email, password=password)
-        page.should_be_authorized_user()

@@ -18,3 +18,5 @@ class BasketPage(BasePage):
     def negative_proverka_basket_page(self):
         assert self.is_disappeared(
             *BasketPageLocators.BASKET_NULL), 'Тест прошел проверку, так как он негативный ====> ЛОЖНООТРИЦАТЕЛЬНЫЙ ТЕСТ'
+
+
